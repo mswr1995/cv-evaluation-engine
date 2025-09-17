@@ -1,0 +1,65 @@
+[project]
+name = "cv-evaluation-engine"
+version = "0.1.0"
+description = "RESTful API for CV evaluation and job matching"
+authors = [{name = "Musawer Muradi", email = "musavir.muradi@gmail.com"}]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+
+dependencies = [
+    # Web Framework
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    
+    # Data Validation and Serialization
+    "pydantic>=2.4.0",
+    "pydantic-settings>=2.0.0",
+    
+    # File Processing
+    "python-multipart>=0.0.6",  # For file uploads
+    
+    # Basic utilities
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",  # For testing FastAPI
+    
+    # Code Quality
+    "black>=23.9.0",
+    "ruff>=0.1.0",
+    "mypy>=1.6.0",
+    
+    # Development
+    "pre-commit>=3.5.0",
+]
+
+nlp = [
+    # NLP libraries (we'll add these later)
+    "spacy>=3.7.0",
+    "sentence-transformers>=2.2.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
