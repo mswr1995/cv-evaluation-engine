@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "RESTful API for CV evaluation and job matching"
 authors = [{name = "Musawer Muradi", email = "musavir.muradi@gmail.com"}]
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 requires-python = ">=3.11"
 
 dependencies = [
@@ -18,6 +18,10 @@ dependencies = [
     
     # File Processing
     "python-multipart>=0.0.6",  # For file uploads
+    
+    # Text Extraction
+    "pypdf>=3.17.0",           # PDF text extraction
+    "python-docx>=1.1.0",      # DOCX text extraction
     
     # Basic utilities
     "python-dotenv>=1.0.0",
@@ -48,6 +52,12 @@ nlp = [
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+# Fixed: Explicitly specify which packages to include
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+exclude = ["tests*", "data*"]
 
 [tool.black]
 line-length = 88

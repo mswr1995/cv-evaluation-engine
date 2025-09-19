@@ -1,12 +1,18 @@
 """Application configuration management."""
 
 from typing import List
-from pydantic import Field, field_validator
+from pydantic import ConfigDict, Field, field_validator
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
+    
+    # Use new ConfigDict instead of Config class
+    model_config = ConfigDict(
+        env_file=".env",
+        case_sensitive=False
+    )
     
     # Application
     app_name: str = Field(default="CV Evaluation Engine")
@@ -34,10 +40,6 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             return [ft.strip().lower() for ft in v.split(',')]
         return v
-    
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
 
 
 # Global settings instance
