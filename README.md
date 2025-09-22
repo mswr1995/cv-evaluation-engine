@@ -46,6 +46,8 @@ This will start both the Ollama LLM server and the FastAPI app:
 
 ```bash
 docker compose up --build
+# or using Makefile:
+make docker-run
 ```
 
 - FastAPI API: [http://localhost:8000](http://localhost:8000)
@@ -62,10 +64,14 @@ If you want to run the app locally for development:
 2. Install dependencies:
    ```bash
    uv sync
+   # or using Makefile:
+   make install
    ```
 3. Start the FastAPI server:
    ```bash
    uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+   # or using Makefile:
+   make run
    ```
 4. **You must also have Ollama running locally** (see [Ollama Quickstart](https://github.com/ollama/ollama)).
 
@@ -119,7 +125,25 @@ cv-evaluation-engine/
 ├── tests/                   # Unit and integration tests
 ├── Dockerfile               # FastAPI app container
 ├── docker-compose.yml       # Multi-service orchestration (Ollama + API)
+├── Makefile                 # Development and Docker commands
 └── .dockerignore            # Docker build exclusions
+```
+
+---
+
+## Makefile Commands
+
+For convenience, common development and deployment commands are available via Makefile:
+
+```bash
+make help        # Show all available commands
+make install     # Install dependencies with uv
+make run         # Run the application locally
+make test        # Run tests
+make lint        # Format and lint code
+make docker-run  # Run with Docker Compose
+make docker-stop # Stop Docker services
+make clean       # Clean up temporary files
 ```
 
 ---
@@ -129,11 +153,15 @@ cv-evaluation-engine/
 - **Run tests:**
   ```bash
   uv run pytest tests/ -v
+  # or using Makefile:
+  make test
   ```
 - **Code formatting & linting:**
   ```bash
   uv run black app/ tests/
   uv run ruff check app/ tests/ --fix
+  # or using Makefile:
+  make lint
   ```
 - **Engineering practices:**
   - Modular, type-annotated code

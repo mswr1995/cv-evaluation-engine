@@ -1,29 +1,38 @@
-version: '3.9'
-
 services:
   ollama:
     image: ollama/ollama:latest
-    container_name: ollama
+    container_name: cv-eval-ollama
     ports:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+    command: serve
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     restart: unless-stopped
 
-  cv-evaluator:
+  app:
     build: .
-    container_name: cv-evaluator
-    depends_on:
-      - ollama
-    environment:
-      # Point to Ollama service inside Docker network
-      OLLAMA_BASE_URL: http://ollama:11434
-      # (add other env vars as needed)
+    container_name: cv-eval-app
     ports:
       - "8000:8000"
-    env_file:
-      - .env
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - DEBUG=false
+    volumes:
+      - ./temp_uploads:/app/temp_uploads
+    depends_on:
+      ollama:
+        condition: service_healthy
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   ollama_data:
