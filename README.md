@@ -11,6 +11,14 @@ A modern, AI-powered CV evaluation system using FastAPI and Ollama (Llama 3) for
 - **Skill & Experience Detection**: Extracts skills, experience, education, and provides detailed feedback.
 - **REST API**: Simple endpoints for file upload and evaluation.
 - **Dockerized**: Easy to run locally or in production with Docker Compose.
+- **Comprehensive Tests**: Unit and integration tests for all major features.
+- **Software Engineering Best Practices**: Type safety, linting, formatting, modular design, and CI-ready structure.
+
+---
+
+## Included Example Resumes
+
+The `data/` folder contains three real sample resumes (PDF and DOCX) for testing and demonstration. You can use these files to try out the API and see real LLM-powered analysis results.
 
 ---
 
@@ -71,6 +79,31 @@ If you want to run the app locally for development:
 
 ---
 
+## API Endpoints (Explained)
+
+- **POST `/api/v1/evaluation/evaluate-file`**
+  - Upload a CV file (PDF, DOCX, or TXT) for LLM-powered evaluation.
+  - Returns a JSON object with overall score, skills, experience, education, detailed analysis, and recommendations.
+  - Example: Upload one of the sample resumes from the `data/` folder to see a real analysis.
+
+- **POST `/api/v1/evaluation/evaluate-text`**
+  - Submit raw CV/resume text for evaluation (no file upload needed).
+  - Returns the same detailed JSON analysis as above.
+
+- **GET `/api/v1/evaluation/model-status`**
+  - Check if the LLM model is available and ready for evaluation.
+  - Useful for health checks and monitoring.
+
+- **GET `/api/v1/evaluation/supported-formats`**
+  - Lists supported file types and size limits for uploads.
+
+- **GET `/api/v1/health`**
+  - Simple health check endpoint to verify the API is running.
+
+All endpoints are fully documented and testable via the built-in Swagger UI at `/docs`.
+
+---
+
 ## Project Structure
 
 ```
@@ -82,6 +115,7 @@ cv-evaluation-engine/
 │   ├── core/                # LLM, text extraction, analysis
 │   ├── models/              # Data models
 │   └── services/            # Business logic
+├── data/                    # Example resumes for testing
 ├── tests/                   # Unit and integration tests
 ├── Dockerfile               # FastAPI app container
 ├── docker-compose.yml       # Multi-service orchestration (Ollama + API)
@@ -101,18 +135,12 @@ cv-evaluation-engine/
   uv run black app/ tests/
   uv run ruff check app/ tests/ --fix
   ```
-
----
-
-## API Endpoints
-
-- `POST /api/v1/evaluation/evaluate-file` — Upload and evaluate a CV file
-- `POST /api/v1/evaluation/evaluate-text` — Evaluate raw CV text
-- `GET /api/v1/evaluation/model-status` — Check LLM model status
-- `GET /api/v1/evaluation/supported-formats` — Supported file types
-- `GET /api/v1/health` — Health check
-
-Interactive docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Engineering practices:**
+  - Modular, type-annotated code
+  - Linting and formatting enforced
+  - Comprehensive unit and integration tests
+  - Clean separation of API, business logic, and core utilities
+  - Ready for CI/CD and production deployment
 
 ---
 
