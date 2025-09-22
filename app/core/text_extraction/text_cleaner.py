@@ -16,6 +16,37 @@ class TextCleaner:
         # Updated phone pattern to handle common formats
         self.phone_pattern = re.compile(r'(?:\+?1[-.\s]?)?(?:\(?[0-9]{3}\)?[-.\s]?)?[0-9]{3}[-.\s]?[0-9]{4}')
     
+    def clean_unicode_text(self, text: str) -> str:
+        """
+        Clean Unicode characters that break JSON parsing.
+        
+        Args:
+            text: Text with potential Unicode issues
+            
+        Returns:
+            str: Text with Unicode characters replaced
+        """
+        if not text or not isinstance(text, str):
+            return text if text is not None else ""
+        
+        # Replace smart quotes and apostrophes
+        text = text.replace(''', "'").replace(''', "'")  # Smart single quotes
+        text = text.replace('"', '"').replace('"', '"')  # Smart double quotes
+        text = text.replace('–', '-').replace('—', '-')  # Em/en dashes
+        text = text.replace('…', '...')  # Ellipsis
+        
+        # Replace other common problematic characters
+        text = text.replace('®', '(R)').replace('©', '(C)')
+        text = text.replace('™', '(TM)')
+        
+        # Only remove truly problematic Unicode characters, preserve normal accented letters
+        # Remove control characters but keep printable Unicode
+        import unicodedata
+        text = ''.join(char for char in text if unicodedata.category(char)[0] != 'C')
+        
+        # Use existing whitespace normalization
+        return self.normalize_whitespace(text)
+    
     def clean_text(self, text: str) -> str:
         """
         Clean extracted text for better processing.

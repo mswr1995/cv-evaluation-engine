@@ -1,7 +1,7 @@
 [project]
-name = "cv-evaluation-engine"
+name = "llm-cv-evaluator"
 version = "0.1.0"
-description = "RESTful API for CV evaluation and job matching"
+description = "LLM-powered CV evaluation engine using Llama for intelligent analysis"
 authors = [{name = "Musawer Muradi", email = "musavir.muradi@gmail.com"}]
 readme = "README.md"
 license = "MIT"
@@ -11,20 +11,16 @@ dependencies = [
     # Web Framework
     "fastapi>=0.104.0",
     "uvicorn[standard]>=0.24.0",
-    
-    # Data Validation and Serialization
+    # Data Validation
     "pydantic>=2.4.0",
     "pydantic-settings>=2.0.0",
-    
     # File Processing
-    "python-multipart>=0.0.6",  # For file uploads
-    
+    "python-multipart>=0.0.6",
     # Text Extraction
-    "pypdf>=3.17.0",           # PDF text extraction
-    "python-docx>=1.1.0",      # DOCX text extraction
-    
-    # Basic utilities
-    "python-dotenv>=1.0.0",
+    "pypdf>=3.17.0",
+    "python-docx>=1.1.0",
+    # LLM Integration
+    "ollama>=0.3.0",
 ]
 
 [project.optional-dependencies]
@@ -32,21 +28,11 @@ dev = [
     # Testing
     "pytest>=7.4.0",
     "pytest-asyncio>=0.21.0",
-    "httpx>=0.25.0",  # For testing FastAPI
+    "httpx>=0.25.0",
     
     # Code Quality
     "black>=23.9.0",
     "ruff>=0.1.0",
-    "mypy>=1.6.0",
-    
-    # Development
-    "pre-commit>=3.5.0",
-]
-
-nlp = [
-    # NLP libraries (we'll add these later)
-    "spacy>=3.7.0",
-    "sentence-transformers>=2.2.0",
 ]
 
 [build-system]
@@ -67,9 +53,3 @@ target-version = ['py311']
 line-length = 88
 target-version = "py311"
 select = ["E", "F", "I", "N", "W", "UP"]
-
-[tool.mypy]
-python_version = "3.11"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true

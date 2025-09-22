@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.egg-info/
+.env
+.env.*
+data/
+temp_uploads/
+tests/
+.git/
+.gitignore
+.DS_Store
+.vscode/
+llm_cv_evaluator.egg-info/
